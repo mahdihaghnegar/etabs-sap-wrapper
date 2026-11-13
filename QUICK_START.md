@@ -72,7 +72,7 @@ df = client.results.tables.get_table(
 ```python
 # Access raw ETABS API for anything not wrapped
 ret = client.model.Analyze.RunAnalysis()
-ret, filename = client.model.GetModelFilename()
+filename = client.model.GetModelFilename()  # returns filename directly
 ```
 
 ## Package Structure
@@ -151,7 +151,7 @@ def main():
         client = ETABSClient.from_running_instance()
 
         # Get model info
-        ret, filename = client.model.GetModelFilename()
+        filename = client.model.GetModelFilename()  # returns filename directly
         print(f"Connected to: {filename}")
 
         # Get forces

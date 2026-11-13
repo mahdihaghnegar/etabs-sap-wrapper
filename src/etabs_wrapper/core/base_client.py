@@ -53,8 +53,8 @@ class BaseCSIClient:
         Example:
             >>> client = ETABSClient.from_running_instance()
             >>> # Direct API call
-            >>> ret = client.model.Analyze.RunAnalysis()
-            >>> ret, filename = client.model.GetModelFilename()
+            >>> # Direct API call (GetModelFilename returns the filename directly)
+            >>> filename = client.model.GetModelFilename()
         """
         return self._model
 

@@ -18,9 +18,9 @@ def main():
         client = ETABSClient.from_running_instance()
         print("✓ Connection successful!")
 
-        # Try to get model filename
-        ret, filename = client.model.GetModelFilename()
-        if ret == 0:
+        # GetModelFilename() returns the filename directly (as a str)
+        filename = client.model.GetModelFilename()
+        if filename:
             print(f"✓ Current model: {filename}")
         else:
             print("✓ Connected, but no model file saved yet")

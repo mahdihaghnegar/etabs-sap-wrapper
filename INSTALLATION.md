@@ -184,7 +184,7 @@ try:
     client = ETABSClient.from_running_instance()
     print("✓ Connected successfully!")
 
-    ret, filename = client.model.GetModelFilename()
+    filename = client.model.GetModelFilename()  # returns filename directly
     print(f"✓ Current model: {filename}")
 
 except ETABSConnectionError as e:

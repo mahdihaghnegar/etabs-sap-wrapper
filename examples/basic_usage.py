@@ -65,8 +65,8 @@ def main():
         print("Example 4: Direct API Access")
         print("=" * 60)
 
-        # Get model filename using direct API call
-        ret, filename = client.model.GetModelFilename()
+        # Get model filename using direct API call (returns filename directly)
+        filename = client.model.GetModelFilename()
         print(f"Current model file: {filename}")
 
         # Example 5: Export results to CSV
