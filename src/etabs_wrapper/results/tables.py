@@ -117,8 +117,31 @@ class TableResults:
         if load_combinations:
             self._model.DatabaseTables.SetLoadCombinationsSelectedForDisplay(load_combinations)
 
-        table_key = "Element Forces - Frames"
-        df = self._retrieve_table_data(table_key, group_name)
+        # Older/newer ETABS versions differ: some expose a single
+        # "Element Forces - Frames" table, others split it into
+        # "Element Forces - Beams" and "Element Forces - Columns".
+        no_tables, table_keys, *_ = self._model.DatabaseTables.GetAvailableTables()
+        available = set(table_keys)
+
+        if "Element Forces - Frames" in available:
+            dfs = [self._retrieve_table_data("Element Forces - Frames", group_name)]
+        elif "Element Forces - Beams" in available or "Element Forces - Columns" in available:
+            dfs = []
+            for key in ("Element Forces - Beams", "Element Forces - Columns"):
+                if key in available:
+                    part = self._retrieve_table_data(key, group_name)
+                    if not part.empty:
+                        dfs.append(part)
+            if not dfs:
+                # No records from either table (e.g. no frames in the model)
+                dfs = [pd.DataFrame()]
+        else:
+            raise RuntimeError(
+                f"No frame forces table available among the {no_tables} tables. "
+                "Has the model been analyzed?"
+            )
+
+        df = pd.concat(dfs, ignore_index=True, sort=False)
 
         # Convert numeric columns to appropriate types
         if "Frame" in df.columns:

@@ -26,7 +26,7 @@ def main():
         print("=" * 60)
 
         frame_forces = client.results.tables.element_forces_frames(
-            load_cases=["DEAD"],  # Specify load cases
+            load_cases=[],  # Specify load cases
             load_combinations=[],  # No combinations
             group_name="",  # All groups
         )
